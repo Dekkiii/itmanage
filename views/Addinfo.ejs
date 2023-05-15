@@ -282,6 +282,10 @@ font-size: 12px;
 <li class="nav-item">
   <a class="nav-link" href="/viewing">View Information</a>
   </li>
+  <% if (userType === 'admin') { %>
+    <li class="nav-item">
+      <a class="nav-link" href="/dashboard">Dashboard</a>
+      <% } %>
 <li class="nav-item">
 <a class="nav-link" href="/logout">logout</a>
 </li>
@@ -430,7 +434,7 @@ font-size: 12px;
             </div>
           </div>
         
-         
+          <input type="hidden" name="usertype" value=<%= userType %>>
         <div class="form-row">
             <div class="col-lg-7">
                 <button type="submit" value="userinfo" class="btn1 mt-3 mb-5">Add Information</button> 
@@ -563,7 +567,7 @@ font-size: 12px;
             </div>
           </div>
         
-         
+          <input type="hidden" name="usertype" value="<%= students.length > 0 ? students[0].usertype : '' %>">
         <div class="form-row">
             <div class="col-lg-7">
                 <button type="submit" value="updateinfo" class="btn1 mt-3 mb-5">Edit Information</button> 

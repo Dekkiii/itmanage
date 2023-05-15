@@ -26,6 +26,7 @@ model Student_Info {
   gender        String
   civil_status  String
   hobby         String
+  usertype      String
 }
 
 model User {

@@ -27,16 +27,31 @@ router.get('/viewing', async (req, res) => {
         },
       });
       const userType = user.usertype; // assuming that the field for usertype in the User model is called "usertype"
-      const allstudents = await prisma.Student_Info.findMany();
-      const students = await prisma.Student_Info.findMany({
-      where: {
-        userId: userId,
-      },
+      const adminallstudents = await prisma.Student_Info.findMany();
+      const users = await prisma.User.findMany({
+        where: {
+          usertype: userType,
+        },
       });
 
-const studentVariableName = userType === "admin" ? allstudents : students;
+      // Get all the ids of the users with the same userType
+      const userIds = users.map((u) => u.id);
+      console.log(userIds)
 
-res.render('view', { students, userId, userType, allstudents, studentVariableName, errors: [], errorMessages: '', });
+      // Get all the Student_Info records with the userIds
+      const allstudents = await prisma.Student_Info.findMany({
+        where: {
+          userId: {
+            in: userIds,
+          },
+        },
+      });
+      console.log(allstudents)
+
+      const studentVariableName = userType === "admin" || userType === "manager" ? adminallstudents : allstudents;
+
+
+res.render('view', { userId, userType, allstudents, studentVariableName, errors: [], errorMessages: '', });
 
     } catch (err) {
       console.log(err);

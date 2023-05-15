@@ -52,7 +52,7 @@ router.post('/editinfo', [
   check('civil_status').notEmpty().withMessage('Civil status is required'),
   check('hobby').notEmpty().withMessage('Civil status is required'),
 ], async (req, res) => {
-  const { infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby } = req.body;
+  const { infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
   const errors = validationResult(req);
  
   if (!errors.isEmpty()) {
@@ -88,7 +88,8 @@ router.post('/editinfo', [
         birthdate: birthdateDate,
         gender,
         civil_status,
-        hobby: Array.isArray(hobby) ? hobby.join(",") : hobby
+        hobby: Array.isArray(hobby) ? hobby.join(",") : hobby, 
+        usertype
       },
     });
 
@@ -124,7 +125,7 @@ router.post('/admineditinfo', [
   check('civil_status').notEmpty().withMessage('Civil status is required'),
   check('hobby').notEmpty().withMessage('Civil status is required'),
 ], async (req, res) => {
-  const { infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby } = req.body;
+  const { infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
   const errors = validationResult(req);
   console.log(infoId, lastname, firstname);
   if (!errors.isEmpty()) {
@@ -162,7 +163,8 @@ router.post('/admineditinfo', [
         birthdate: birthdateDate,
         gender,
         civil_status,
-        hobby: Array.isArray(hobby) ? hobby.join(",") : hobby
+        hobby: Array.isArray(hobby) ? hobby.join(",") : hobby,
+        usertype,
       },
     });
 

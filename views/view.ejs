@@ -287,62 +287,95 @@ font-size: 12px;
 <li class="nav-item">
     <a class="nav-link" href="/viewing">View Information</a>
 </li>
+<% if (userType === 'admin') { %>
+  <li class="nav-item">
+    <a class="nav-link" href="/dashboard">Dashboard</a>
+    <% } %>
+</li>
 <li class="nav-item">
 <a class="nav-link" href="/logout">logout</a>
 </li>
 </ul>
 </div>
 </nav>
-
-
-<% if (studentVariableName && studentVariableName.length > 0) { %>
-
-  <div id="viewinfo-section">
-
-  <% studentVariableName.forEach((student) => { %>
-    <form method="POST" action="/updateinfobtn">
-      <section class="Form">
-        <text>Firstname: <%= student.firstname %> </text>
-        <text>Lastname: <%= student.lastname %> </text>
-        <text>Middlename: <%= student.middlename %> </text>
-        <text>Address: <%= student.address %> </text>
-        <text>City: <%= student.city %> </text>
-        <text>Region: <%= student.region %> </text>
-        <text>Country: <%= student.country %> </text>
-        <text>Zipcode: <%= student.zipcode %> </text>
-        <% const birthdate = new Date(student.birthdate).toISOString().substring(0, 10) %>
-        <text>Birthdate: <%= birthdate %> </text>
-        <text>Gender: <%= student.gender %> </text>
-        <text>Status: <%= student.civil_status %> </text>
-        <% if (userType === 'manager' || userType === 'admin') { %>
-        <% const updateId = student.id %>
-        <button type="submit" name="updateinfo" value="<%= updateId %>">Update</button>
-        <% } %>
-
-    </form>
-    <form method="POST" action="/deleteinfo">
-      <% if (userType === 'admin') { %>
-        <% const updateId = student.id %>
-        <button name="deleteinfo" value="<%= updateId %>">Delete</button>
-        <% } %>
-    </form>
-  </section>
-    </div>
-    <% }); %>
-    <% }
- else { %>
-  <section class="Form">
-    <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <h1>There is no Information Provided</h1>
-        
+<section class="intro">
+  <div class="bg-image h-100" style="background-color: #f5f7fa;">
+    <div class="mask d-flex align-items-center h-100">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative;">
+                  <table class="table table-striped mb-0">
+                    <thead style="background-color: #002d72;">
+                      <tr>
+                        <th scope="col" style="color: #fff;">First Name</th>
+                        <th scope="col" style="color: #fff;">Last Name</th>
+                        <th scope="col" style="color: #fff;">User Type</th>
+                          <th scope="col" style="color: #fff;">Action</th>
+                          <% if (userType === 'manager' || userType === 'admin') { %>
+                          <th scope="col" style="color: #fff;"></th>
+                        <% } %>
+                        <% if (userType === 'admin') { %>
+                          <th scope="col" style="color: #fff;"></th>
+                        <% } %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (studentVariableName && studentVariableName.length > 0) {
+                            studentVariableName.forEach((student) => { %>
+                        <tr>
+                          <td><%= student.firstname %></td>
+                          <td><%= student.lastname %></td>
+                          <td><%= student.usertype %></td>
+                          <td>
+                            <form method="POST" action="/viewinfobtn">
+                                <% const updateId = student.id %>
+                              <button type="submit" name="updateinfo" value="<%= student.id %>" class="btn btn-sm btn-primary">View</button>
+                            </form>
+                            
+                          </td>
+                          <% if (userType === 'manager' || userType === 'admin') { %>
+                            <td>
+                              <form method="POST" action="/updateinfobtn">
+                                
+                                  <% const updateId = student.id %>
+                                <button type="submit" name="updateinfo" value="<%= student.id %>" class="btn btn-sm btn-primary">Update</button>
+                               
+                              </form>
+                              
+                            </td>
+                            <% } %>
+                            <% if (userType === 'admin') { %>
+                              <% const updateId = student.id %>
+                            <td>
+                              <form method="POST" action="/deleteinfo">
+                               
+                                <button type="submit" name="deleteinfo" value="<%= student.id %>" class="btn btn-sm btn-danger">Delete</button>
+                               
+                              </form>
+                            </td>
+                            <% } %>
+                          
+                        </tr>
+                      <% });
+                         } else { %>
+                        <tr>
+                          <td colspan="4" class="text-center">There is no information provided</td>
+                        </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="row justify-content-center align-items-center">
-        <button type="submit" onclick="window.location.href='/addinfo'">Add Information</button>
-      </div>
     </div>
-  </section>
-<% } %> 
+  </div>
+</section>
 
 
 </body>

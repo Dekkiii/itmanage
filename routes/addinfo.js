@@ -48,13 +48,14 @@ router.get('/addinfo', async (req, res, next) => {
           id: userId,
         },
       });
+
       const userType = user.usertype; // assuming that the field for usertype in the User model is called "userType"
       const students = await prisma.Student_Info.findMany({
         where: {
           userId: userId,
         },
       });
-      res.render('Addinfo', { students, userId, errors: [], errorMessages: '',  successMessages: ''  });
+      res.render('Addinfo', { userType, students, userId, errors: [], errorMessages: '',  successMessages: ''  });
       console.log(userId);
     } catch (err) {
       console.log(err);
@@ -91,7 +92,7 @@ router.post('/userinfo', [
 ], async (req, res) => {
   
   // do something with the form data, such as saving it to a database
-  const {userId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby } = req.body;
+  const {userId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     
@@ -130,7 +131,8 @@ router.post('/userinfo', [
         birthdate: birthdateDate,
         gender,
         civil_status,
-        hobby: Array.isArray(hobby) ? hobby.join(",") : hobby
+        hobby: Array.isArray(hobby) ? hobby.join(",") : hobby,
+        usertype,
       }
     });
     res.render('home', { userId , successMessages: `User Information Added Sucessfully` } );
