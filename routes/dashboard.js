@@ -11,10 +11,13 @@ app.use(express.json());
 
 router.get('/dashboard', async (req, res) => {
   const userId = session.userId;
-  console.log(userId);
-  
-  
-  
+
+  if (!userId) {
+    res.redirect('/loginpage');
+    
+  }else{
+    try {
+      const userType = user.usertype;
   
   const maleCount = await prisma.Student_Info.count({ where: { gender: "male" } });
   const femaleCount = await prisma.Student_Info.count({ where: { gender: "female" } });
@@ -49,8 +52,14 @@ const adminCount = await prisma.Student_Info.count({ where: { usertype: "admin" 
   const hobbyList = Object.entries(hobbyCounts).map(([hobby, count]) => ({ hobby, count }));
 
 
-  res.render('dashboard', { maleCount, femaleCount,singleCount,marriedCount,divorcedCount,widowedCount, hobbyList, userCount, managerCount,adminCount  });
+  res.render('dashboard', { maleCount, femaleCount,singleCount,marriedCount,divorcedCount,widowedCount, hobbyList, userCount, managerCount,adminCount,userType  });
   console.log(maleCount,femaleCount);
+}
+catch (err) {
+  console.log(err);
+  res.status(500).send('Internal server error');
+}
+}
 });
 
 

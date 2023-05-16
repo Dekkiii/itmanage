@@ -287,6 +287,10 @@ font-size: 12px;
 <li class="nav-item">
     <a class="nav-link" href="/viewing">View Information</a>
 </li>
+<% if (userType === 'admin') { %>
+  <li class="nav-item">
+    <a class="nav-link" href="/dashboard">Dashboard</a>
+    <% } %>
 <li class="nav-item">
 <a class="nav-link" href="/logout">logout</a>
 </li>
