@@ -17,6 +17,11 @@ router.get('/dashboard', async (req, res) => {
     
   }else{
     try {
+      const user = await prisma.User.findUnique({
+        where: {
+          id: userId,
+        },
+      });
       const userType = user.usertype;
   
   const maleCount = await prisma.Student_Info.count({ where: { gender: "male" } });
