@@ -61,7 +61,7 @@ router.post('/registering', [
  
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
-    return res.render('register', { errors: errors.array(), errorMessages, errorMessage: `Email already exists, please choose a different one`});
+    return res.render('register', { errors: errors.array(), errorMessages, errorMessage: ''});
   }
   
   const user = await prisma.User.findUnique({ where: { email } });
