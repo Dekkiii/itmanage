@@ -16,12 +16,14 @@
             box-sizing: border-box;
         }
         body{
-            background: rgb(0, 0, 0);
+            background: linear-gradient(#30ccf3, #2e1ccb);
+            font-family: "Open Sans", sans-serif;
         }  
+        
         .row{
-            background: rgb(247, 247, 247);
+            background-color: #52dfee;
             border-radius: 30px;
-            box-shadow: 12px 12px 22px grey;
+            box-shadow: 1px 2px 13px -1px #3c39ef;
         }
         img{
             border-top-left-radius: 30px;
@@ -52,6 +54,11 @@
 
 .form-control select option {
   z-index: 1;
+}
+.container {
+
+ 
+  padding: 2rem;
 }
     </style>
 
@@ -85,8 +92,7 @@
                     <img src="Phttps://cdn.glitch.global/6a964070-fa24-4424-a894-bf4948808638/LOGONIDEKSAYT.png?v=1651913178186" class="img-fluid" alt="">
                 </div>
                 
-    
-                <div class="col-lg-7 px-5 pt-5">
+                <div class="col-lg-7">
                     <h1 class="font-weight-bold py-3">Hi!</h1>
                     <h4>Create New Acc</h4>
                     <form method="post" action="/registering">
@@ -144,10 +150,14 @@
                                 <button type="submit" value="Register" class="btn1 mt-3 mb-5">Login</button> 
                             </div>
                         </div>
-
-                        <a href="/loginpage">Sign in!</a>
-                       
+                        
+                        
                     </form>
+                    <div class="form-row">
+                    <div class="col-lg-7">
+                    <button class="btn1 mt-1 mb-2" onclick="window.location.href='/loginpage'">Sign in</button>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

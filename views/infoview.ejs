@@ -49,20 +49,7 @@
     
         }
 
-        .Form {
-  background-color: white;
-  border-radius: 30px;
-  opacity: 90%;
-  min-height: 50vh;
-  min-width: 50vh;
-  max-width: 100vh;
-  margin: 40px auto 0; /* add margin to the top */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
- 
-}
+      
 .successform {
   background-color: white;
   border-radius: 30px;
@@ -140,22 +127,86 @@
                         color:#000;
                         }
 
-                        .btn1{
-            border: none;
-            outline: none;
-            height: 50px;
-            width: 100%;
-            background-color: rgb(0, 0, 0);
-            color: #ffffff;
-            border-radius: 4px;
-            font-weight: bold;
-        }
+                        .btn1 {
+      outline: none;
+      height: 50px;
+      width: 100%;
+      background-color: #007bff;
+      border-color: #007bff;
+      color: #ffffff;
+      border-radius: 4px;
+      font-weight: bold;
+    }
         .btn1:hover{
             background: whitesmoke;
             border: 1px solid;
             color: black;
         }
+        .container{
+        height: 100vh;
+       }
 
+       .card{
+        width: 380px;
+        border: none;
+        border-radius: 15px;
+        padding: 8px;
+        background-color: #fff;
+        position: relative;
+        height: 370px;
+       }
+
+       .upper{
+
+        height: 100px;
+
+       }
+
+       .upper img{
+
+        width: 100%;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+       }
+
+       .user{
+        position: relative;
+       }
+
+       .profile img{
+
+        
+        height: 80px;
+        width: 80px;
+        margin-top:2px;
+
+       
+       }
+
+       .profile{
+
+        position: absolute;
+        top:-50px;
+        left: 38%;
+        height: 90px;
+        width: 90px;
+        border:3px solid #fff;
+
+        border-radius: 50%;
+
+       }
+
+       .follow{
+        border-radius: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        height: 35px;
+       }
+
+       .stats span{
+        font-size: 20px;
+       }
         
         
 </style>
@@ -197,28 +248,44 @@
 
 
 
-  <% if (typeof successMessages !== 'undefined' && successMessages !== '') { %>
-    <section class="successform">
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <%= successMessages %>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </section>
-  <% } %>
-
 
 
 <section class="Form">
-  
-  <div class="container">
-    <div class="row justify-content-center align-items-center">
+  <div class="container d-flex justify-content-center align-items-center">
+          
+    <div class="card">
+     <div class="mt-5 text-center">
 
-      
+       <h4 class="mb-0"><%= filteredStudents.length > 0 ? filteredStudents[0].firstname : '' %></h4>
+       <span class="text-muted d-block mb-2"><%= filteredStudents.length > 0 ? filteredStudents[0].lastname : '' %></span>
+       <span class="text-muted d-block mb-2"><%= filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %></span>
 
-        <h1>Welcome to the home page!</h1> 
+       <div class="d-flex justify-content-between align-items-center mt-4 px-4">
 
+         <div class="stats">
+           <h6 class="mb-0">Gender</h6>
+           <span><td><%= filteredStudents.length > 0 ? filteredStudents[0].gender : '' %></td></span>
+
+         </div>
+
+
+         <div class="stats">
+           <h6 class="mb-0">Civil Status</h6>
+           <span><%= filteredStudents.length > 0 ? filteredStudents[0].civil_status : '' %></span>
+
+         </div>
+
+
+         <div class="stats">
+           <h6 class="mb-0">City</h6>
+           <span><%= filteredStudents.length > 0 ? filteredStudents[0].city : '' %></span>
+        </div>
+
+       </div>
+       <div class="mt-5 text-center">
+        <button class="btn1 mt-1 mb-2" onclick="window.location.href='/viewing'">Back</button>
+       </div>
+     </div>
     </div>
   </div>
 </section>

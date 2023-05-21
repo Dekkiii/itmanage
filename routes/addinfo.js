@@ -15,7 +15,24 @@ function toggleSection() {
   const section = document.getElementById('students-section');
   section.classList.toggle('hidden');
 }
-
+const affineDecipher = (input, key) => {
+  let output = '';
+  const aInverse = key.a
+  const bInverse = key.b
+  for (let i = 0; i < input.length; i++) {
+    const c = input.charCodeAt(i);
+    if (c >= 65 && c <= 90) {
+      const decryptedChar = (((aInverse * ((c - 65) - bInverse)) % 26) + 26) % 26;
+      output += String.fromCharCode(decryptedChar + 65);
+    } else if (c >= 97 && c <= 122) {
+      const decryptedChar = (((aInverse * ((c - 97) - bInverse)) % 26) + 26) % 26;
+      output += String.fromCharCode(decryptedChar + 97);
+    } else {
+      output += input.charAt(i);
+    }
+  }
+  return output;
+}
 
 const affineCipher = (input, key) => {
   let output = '';
@@ -35,6 +52,7 @@ const affineCipher = (input, key) => {
 }
 
 
+
 router.get('/addinfo', async (req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache');
   const userId = session.userId;
@@ -48,15 +66,27 @@ router.get('/addinfo', async (req, res, next) => {
           id: userId,
         },
       });
-
+      const affineKey = {
+        a: 21,
+        b: 8
+      };
       const userType = user.usertype; // assuming that the field for usertype in the User model is called "userType"
       const students = await prisma.Student_Info.findMany({
         where: {
           userId: userId,
         },
       });
-      res.render('Addinfo', { userType, students, userId, errors: [], errorMessages: '',  successMessages: ''  });
-      console.log(userId);
+      const decryptedstudents = students.map(student => {
+        const decryptedFirstName = affineDecipher(student.firstname, affineKey);
+        const decryptedLastName = affineDecipher(student.lastname, affineKey);
+        return {
+          ...student,
+          firstname: decryptedFirstName,
+          lastname: decryptedLastName
+        };
+      });
+      res.render('Addinfo', { userType, students:decryptedstudents, userId, errors: [], errorMessages: '',  successMessages: ''  });
+      console.log(userId,user,students);
     } catch (err) {
       console.log(err);
       res.status(500).send('Internal server error');
@@ -88,11 +118,12 @@ router.post('/userinfo', [
   check('birthdate').notEmpty().withMessage('Birthdate is required'),
   check('gender').notEmpty().withMessage('Gender is required'),
   check('civil_status').notEmpty().withMessage('Civil status is required'),
-  check('hobby').notEmpty().withMessage('Civil status is required'),
+  check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
   
   // do something with the form data, such as saving it to a database
-  const {userId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  const {userType, userId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  console.log(userType, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     
@@ -135,7 +166,7 @@ router.post('/userinfo', [
         usertype,
       }
     });
-    res.render('home', { userId , successMessages: `User Information Added Sucessfully` } );
+    res.render('home', { userType, userId , successMessages: `User Information Added Sucessfully` } );
   } catch (err) {
     console.log(err);
     

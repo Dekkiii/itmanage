@@ -50,14 +50,16 @@ router.post('/editinfo', [
   check('birthdate').notEmpty().withMessage('Birthdate is required'),
   check('gender').notEmpty().withMessage('Gender is required'),
   check('civil_status').notEmpty().withMessage('Civil status is required'),
-  check('hobby').notEmpty().withMessage('Civil status is required'),
+  check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
-  const { infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  const {userType,userId, infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
   const errors = validationResult(req);
  
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
-    return res.render('Addinfo', { errors: errors.array(), errorMessages }); // Pass the errors and an empty array of users to the template
+    console.log(errorMessages);
+    return res.render('Addinfo', { errorMessages }); // Pass the errors and an empty array of users to the template
+    
   }
   
   const affineKey = {
@@ -77,8 +79,6 @@ router.post('/editinfo', [
         id: infoId,
       },
       data: {
-        lastname,
-        firstname,
         middlename,
         address,
         city,
@@ -93,7 +93,7 @@ router.post('/editinfo', [
       },
     });
 
-    res.render('home');
+    res.render('home',{userType, userId , successMessages: `User Information Updated Sucessfully` });
     console.log(infoId,lastname,firstname,middlename,address,city,region,country,zipcode,birthdate,gender,civil_status,hobby);
   } catch (err) {
     console.log(err);
@@ -123,15 +123,17 @@ router.post('/admineditinfo', [
   check('birthdate').notEmpty().withMessage('Birthdate is required'),
   check('gender').notEmpty().withMessage('Gender is required'),
   check('civil_status').notEmpty().withMessage('Civil status is required'),
-  check('hobby').notEmpty().withMessage('Civil status is required'),
+  check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
-  const { infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  const {infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby } = req.body;
+  
+ 
   const errors = validationResult(req);
-  console.log(infoId, lastname, firstname);
+  console.log(infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby);
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
     console.log(errorMessages, errors);
-    return res.render('Update', { errorMessages }); // Pass the errors and an empty array of users to the template
+    return res.render('Update', {errorMessages }); // Pass the errors and an empty array of users to the template
    
   }
   
@@ -141,7 +143,14 @@ router.post('/admineditinfo', [
   };
 
   try {
-    
+    const userId = session.userId;
+  const user = await prisma.User.findUnique({
+    where: {
+      id: userId,
+    }
+  });
+  const userType = user.usertype;
+  console.log(userType);
     const encryptedLastName = affineCipher(lastname, affineKey);
     const encryptedFirstName = affineCipher(firstname, affineKey);
     const zipcodeInt = parseInt(zipcode, 10);
@@ -152,8 +161,6 @@ router.post('/admineditinfo', [
         id: infoId,
       },
       data: {
-        lastname,
-        firstname,
         middlename,
         address,
         city,
@@ -164,15 +171,14 @@ router.post('/admineditinfo', [
         gender,
         civil_status,
         hobby: Array.isArray(hobby) ? hobby.join(",") : hobby,
-        usertype,
       },
     });
 
-    res.render('home');
+    res.render('home',{userType,successMessages:`User Information Updated`});
+   
     console.log(infoId,lastname,firstname,middlename,address,city,region,country,zipcode,birthdate,gender,civil_status,hobby);
   } catch (err) {
     console.log(err);
-  console.log(infoId,lastname,firstname,middlename,address,city,region,country,zipcode,birthdate,gender,civil_status,hobby);
 }
 });
   module.exports = router;

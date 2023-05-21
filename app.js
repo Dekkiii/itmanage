@@ -14,6 +14,8 @@ var editRoute = require('./routes/editinfo');
 var viewRoute = require('./routes/view');
 var deleteRoute = require('./routes/deleteinfo');
 var dashboardRoute = require('./routes/dashboard');
+var viewinformationRoute = require('./routes/viewinfo');
+
 
 
 
@@ -41,6 +43,7 @@ app.use(editRoute);
 app.use(viewRoute);
 app.use(deleteRoute);
 app.use(dashboardRoute);
+app.use(viewinformationRoute);
 
 
 // catch 404 and forward to error handler

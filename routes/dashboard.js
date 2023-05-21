@@ -17,6 +17,12 @@ router.get('/dashboard', async (req, res) => {
     
   }else{
     try {
+      
+      const user = await prisma.User.findUnique({
+        where: {
+          id: userId,
+        },
+      });
       const userType = user.usertype;
   
   const maleCount = await prisma.Student_Info.count({ where: { gender: "male" } });
@@ -28,7 +34,7 @@ router.get('/dashboard', async (req, res) => {
   const userCount = await prisma.Student_Info.count({ where: { usertype: "user" } });
 const managerCount = await prisma.Student_Info.count({ where: { usertype: "manager" } });
 const adminCount = await prisma.Student_Info.count({ where: { usertype: "admin" } });
-
+const accountcount = await prisma.User.count();
   console.log(maleCount,femaleCount);
   const hobbyCounts = {};
 
@@ -52,8 +58,8 @@ const adminCount = await prisma.Student_Info.count({ where: { usertype: "admin" 
   const hobbyList = Object.entries(hobbyCounts).map(([hobby, count]) => ({ hobby, count }));
 
 
-  res.render('dashboard', { maleCount, femaleCount,singleCount,marriedCount,divorcedCount,widowedCount, hobbyList, userCount, managerCount,adminCount,userType  });
-  console.log(maleCount,femaleCount);
+  res.render('dashboard', { accountcount, maleCount, femaleCount,singleCount,marriedCount,divorcedCount,widowedCount, hobbyList, userCount, managerCount,adminCount,userType  });
+  console.log(accountcount, maleCount,femaleCount);
 }
 catch (err) {
   console.log(err);
