@@ -85,7 +85,7 @@ router.get('/addinfo', async (req, res, next) => {
           lastname: decryptedLastName
         };
       });
-      res.render('Addinfo', { userType, students:decryptedstudents, userId, errors: [], errorMessages: '',  successMessages: ''  });
+      res.render('Addinfo', { userType, students:decryptedstudents, userId, errors: [], errorMessages: ''  });
       console.log(userId,user,students);
     } catch (err) {
       console.log(err);
@@ -120,30 +120,50 @@ router.post('/userinfo', [
   check('civil_status').notEmpty().withMessage('Civil status is required'),
   check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
-  
+  const userId = session.userId;
+  const user = await prisma.User.findUnique({
+    where: {
+      id: userId,
+    }
+  });
+  const userType = user.usertype;
   // do something with the form data, such as saving it to a database
-  const {userType, userId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
-  console.log(userType, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype);
+  const {lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  const students = await prisma.Student_Info.findMany({
+    where: {
+      userId: userId,
+    },
+  });
+  const affineKey = {
+    a: 21,
+    b: 8
+  };
+  const decryptedstudents = students.map(student => {
+    const decryptedFirstName = affineDecipher(student.firstname, affineKey);
+    const decryptedLastName = affineDecipher(student.lastname, affineKey);
+    return {
+      ...student,
+      firstname: decryptedFirstName,
+      lastname: decryptedLastName
+    };
+  });
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    
     const errorMessages = errors.array().map(error => error.msg);
-    console.log(errorMessages);
-    return res.render('Addinfo', { errorMessages }); // Pass the errors and an empty array of users to the template
+    return res.render('Addinfo', {students:decryptedstudents, userType ,userId, errors: errors.array(), errorMessages,});
   }
 
   // Define the affine cipher key
   
   // Encrypt the first and last name using the affine cipher
- 
-  const affineKey = {
+  const enaffineKey = {
     a: 5,
-    b: 8 
+    b: 8,
   };
-  
+ 
   try {
-    const encryptedLastName = affineCipher(lastname, affineKey);
-    const encryptedFirstName = affineCipher(firstname, affineKey);
+    const encryptedLastName = affineCipher(lastname, enaffineKey);
+    const encryptedFirstName = affineCipher(firstname, enaffineKey);
     const zipcodeInt = parseInt(zipcode, 10);
     const birthdateDate = new Date(birthdate);
     
@@ -163,7 +183,7 @@ router.post('/userinfo', [
         gender,
         civil_status,
         hobby: Array.isArray(hobby) ? hobby.join(",") : hobby,
-        usertype,
+        usertype: userType,
       }
     });
     res.render('home', { userType, userId , successMessages: `User Information Added Sucessfully` } );

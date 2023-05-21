@@ -102,6 +102,20 @@
       align-items: center;
 
     }
+    .Forminfo1 {
+      border-radius: 30px;
+      opacity: 90%;
+      min-height: 10vh;
+      min-width: 75vh;
+      max-width: 100vh;
+      margin: 40px auto 0px;
+      /* add margin to the top */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
 
     .select option {
       font-size: 12px;
@@ -419,6 +433,19 @@
 
 
 <body>
+  
+  <% if (typeof errorMessages1 !== 'undefined' && errorMessages1.length > 0) { %>
+    <% errorMessages.forEach(function(errorMessage) { %>
+      <div>
+        <section  class="Forminfo1">
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <li><%= errorMessage %></li>
+      </div>
+    </section>
+  </div>
+    <% }) %>
+  <% } %>
+
 
   <% if (students && students.length> 0) { %>
     <% students.forEach((student)=> { %>
@@ -444,8 +471,7 @@
       </div>
       <% }); %>
 
-        <% } 
-        else { %>
+        <% } else { %>
           <section class="Form">
             <section class="Form1">
               <div class="container">
@@ -455,15 +481,14 @@
                   <div>
                 <form method="post" action="/userinfo">
 
-                  <% if (typeof errorMessages !== 'undefined' && errorMessages !== '') { %>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                      <li>
-                        <%= errorMessages %>
-                      </li>
-                    </div>
-                    <% } %>
-
-                          <input type="hidden" name="userId" value=<%=userId %>>
+                  <% if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) { %>
+                    <% errorMessages.forEach(function(errorMessage) { %>
+                      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <li><%= errorMessage %></li>
+                      </div>
+                    <% }) %>
+                  <% } %>   
+                          <input type="hidden" name="userId" value="<% userId %>">
                               <input type="text" name="firstname" placeholder="First name" class="form-control my-3 p-4" required>
                               <input type="text" name="lastname" placeholder="Last name" class="form-control my-3 p-4" required>
                               <input type="text" name="middlename" placeholder="Middle Name" class="form-control my-3 p-4" required>
@@ -494,10 +519,9 @@
                                 required>
                               </select>
   
-                              <input type="number" name="zipcode" placeholder="Zipcode" class="form-control my-3 p-4"  required pattern="[0-9]{4}" maxlength="4"  oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                              <input type="number" name="zipcode" placeholder="Zipcode" class="form-control my-3 p-4" required pattern="[0-9]{0,4}" oninput="if (this.value.length > 4) this.value = this.value.slice(0, 4);">
+
                             
-
-
                               <input type="date" name="birthdate" placeholder="Birthdate" class="form-control my-3 p-4" required>
               
                               <label>Gender:</label><br>
@@ -518,7 +542,7 @@
                               <input class="h1" type="checkbox" name="hobby" value="music"> Music<br>
                               <input class="h1" type="checkbox" name="hobby" value="other"> Others
 
-                          <input type="hidden" name="usertype" value=<%=userType %>>
+                          <input type="hidden" name="usertype" value="<% userType %>">
     
                               <button type="submit" value="userinfo" class="btn1 mt-3 mb-5">Add Information</button>
  
@@ -531,6 +555,17 @@
 
 
             <section id="students-section" class="hidden">
+              <div>
+                <section>
+              <% if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) { %>
+                <% errorMessages.forEach(function(errorMessage) { %>
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <li><%= errorMessage %></li>
+                  </div>
+                <% }) %>
+              <% } %>
+            </section>
+              </div>
               <section class="Form1">
                 <div class="container">
                   <div class="h1-center">
@@ -539,14 +574,13 @@
                   <div>
                     <form method="post" action="/editinfo" >
                      
-                      <% if (typeof errorMessages !== 'undefined' && errorMessages !== '') { %>
-                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                  <li>
-                                    <%= errorMessages %>
-                                  </li>
-                                </div>
-                                <% } %>
-
+                      <% if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) { %>
+                        <% errorMessages.forEach(function(errorMessage) { %>
+                          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <li><%= errorMessage %></li>
+                          </div>
+                        <% }) %>
+                      <% } %>
                                   <input type="hidden" name="infoId" value="<%= students.length > 0 ? students[0].id : '' %>">
                                   <input type="text" name="lastname" placeholder="Last name"  class="form-control my-3 p-4" value="<%= students.length > 0 ? students[0].lastname : '' %>" readonly required>
                                   <input type="text" name="firstname" placeholder="First name" class="form-control my-3 p-4" value="<%= students.length > 0 ? students[0].firstname : '' %>" readonly required>
@@ -590,8 +624,7 @@
 
 
                                   <% const zipcode=students.length> 0 ? students[0].zipcode : '' %>
-                                    <input type="text" name="zipcode" placeholder="Zipcode"
-                                      class="form-control my-3 p-4" value="<%= zipcode %>" readonly required>
+                                      <input type="number" name="zipcode" placeholder="Zipcode" class="form-control my-3 p-4" value="<%= zipcode %>"required pattern="[0-9]{0,4}" oninput="if (this.value.length > 4) this.value = this.value.slice(0, 4);">
 
 
                                     <% const birthdate=students.length> 0 ? new

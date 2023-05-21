@@ -29,6 +29,25 @@ const affineCipher = (input, key) => {
   return output;
 }
 
+const affineDecipher = (input, key) => {
+  let output = '';
+  const aInverse = key.a
+  const bInverse = key.b
+  for (let i = 0; i < input.length; i++) {
+    const c = input.charCodeAt(i);
+    if (c >= 65 && c <= 90) {
+      const decryptedChar = (((aInverse * ((c - 65) - bInverse)) % 26) + 26) % 26;
+      output += String.fromCharCode(decryptedChar + 65);
+    } else if (c >= 97 && c <= 122) {
+      const decryptedChar = (((aInverse * ((c - 97) - bInverse)) % 26) + 26) % 26;
+      output += String.fromCharCode(decryptedChar + 97);
+    } else {
+      output += input.charAt(i);
+    }
+  }
+  return output;
+}
+
 router.post('/editinfo', [
   check('lastname').isLength({ min: 3}).withMessage('Last name is required')
   .matches(/^[a-zA-Z]*$/)
@@ -52,20 +71,42 @@ router.post('/editinfo', [
   check('civil_status').notEmpty().withMessage('Civil status is required'),
   check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
-  const {userType,userId, infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  
+  const userId = session.userId;
+  const user = await prisma.User.findUnique({
+    where: {
+      id: userId,
+    }
+  });
+  const userType = user.usertype;
+  const {infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype } = req.body;
+  const students = await prisma.Student_Info.findMany({
+    where: {
+      userId: userId,
+    },
+  });
+  const affineKey = {
+    a: 21,
+    b: 8
+  };
+  const decryptedstudents = students.map(student => {
+    const decryptedFirstName = affineDecipher(student.firstname, affineKey);
+    const decryptedLastName = affineDecipher(student.lastname, affineKey);
+    return {
+      ...student,
+      firstname: decryptedFirstName,
+      lastname: decryptedLastName
+    };
+  });
+
+  
+  console.log(decryptedstudents,userType,userId)
   const errors = validationResult(req);
- 
   if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(error => error.msg);
-    console.log(errorMessages);
-    return res.render('Addinfo', { errorMessages }); // Pass the errors and an empty array of users to the template
+    const errorMessages1 = errors.array().map(error => error.msg);
+    return res.render('Addinfo', { userType, students:decryptedstudents, userId, errors: errors.array(), errorMessages1});
     
   }
-  
-  const affineKey = {
-    a: 5,
-    b: 8 
-  };
 
   try {
     
@@ -125,22 +166,44 @@ router.post('/admineditinfo', [
   check('civil_status').notEmpty().withMessage('Civil status is required'),
   check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
+
+  const userId = session.userId;
+  const user = await prisma.User.findUnique({
+    where: {
+      id: userId,
+    }
+  });
+  const userType = user.usertype;
   const {usersId, infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype} = req.body;
-  
  
+  const filteredStudents = await prisma.Student_Info.findMany({
+    where: {
+      id: infoId,
+    },
+  });
+  const affineKey = {
+    a: 21,
+    b: 8
+  };
+  const decryptedfilteredStudents = filteredStudents.map(student => {
+    const decryptedFirstName = affineDecipher(student.firstname, affineKey);
+    const decryptedLastName = affineDecipher(student.lastname, affineKey);
+    return {
+      ...student,
+      firstname: decryptedFirstName,
+      lastname: decryptedLastName
+    };
+  });
+  
+  console.log(userType);
   const errors = validationResult(req);
-  console.log(infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype);
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
     console.log(errorMessages, errors);
-    return res.render('Update', {errorMessages }); // Pass the errors and an empty array of users to the template
+    return res.render('Update', {userType, filteredStudents: decryptedfilteredStudents, errors: errors.array(), errorMessages, }); // Pass the errors and an empty array of users to the template
    
   }
   
-  const affineKey = {
-    a: 5,
-    b: 8 
-  };
 
   try {
     const userId = session.userId;

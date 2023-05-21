@@ -396,13 +396,10 @@ font-size: 12px;
           <% errorMessages.forEach(function(error) { %>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <li><%= error %></li>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
               </div>
-          <% }) %>
+              <% }) %>
           <% } %>
-
+            
           <input type="hidden" name="infoId" value="<%= filteredStudents.length > 0 ? filteredStudents[0].id : '' %>">
           <input type="hidden" name="usersId" value="<%= filteredStudents.length > 0 ? filteredStudents[0].userId : '' %>">
                 <input type="text" name="lastname" placeholder="First name" class="form-control my-3 p-4" value="<%= filteredStudents.length > 0 ? filteredStudents[0].lastname : '' %>" readonly required>    
@@ -436,7 +433,7 @@ font-size: 12px;
             </select>
 
              <% const zipcode = filteredStudents.length > 0 ? filteredStudents[0].zipcode : '' %>
-             <input type="text" name="zipcode" placeholder="Zipcode" class="form-control my-3 p-4" value="<%= zipcode %>" readonly required>
+             <input type="number" name="zipcode" placeholder="Zipcode" class="form-control my-3 p-4" value="<%= zipcode %>"required pattern="[0-9]{0,4}" oninput="if (this.value.length > 4) this.value = this.value.slice(0, 4);">
           
               <% const birthdate = filteredStudents.length > 0 ? new Date(filteredStudents[0].birthdate).toISOString().substring(0, 10) : '' %>
               <input type="date" name="birthdate" placeholder="Birthdate" class="form-control my-3 p-4" value="<%= birthdate %>" required>
@@ -462,8 +459,8 @@ font-size: 12px;
 
                   <label>User Type</label><br>
               <% const usertypevalue = filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %>
-                <select name="usertype" placeholder="usertype" class="form-control my-3 p-2" id="city" name="city" required>
-                <option disabled selected value="<%= usertypevalue %>"><%= filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %></option>
+                <select name="usertype" placeholder="usertype" class="form-control my-3 p-2" id="usertype" name="usertype" required>
+                <option value="<%= usertypevalue %>"><%= filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %></option>
                 <option value="user">user</option>
                 <option value="manager">manager</option>
                 <option value="admin">admin</option>

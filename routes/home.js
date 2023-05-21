@@ -28,7 +28,7 @@ router.get('/homepage', async (req, res) =>{
           userId: userId,
         },
       });
-      res.render('home', { userType, students, userId, errors: [],errorMessages: '',  successMessages: ''  });
+      res.render('home', { userType, students, userId, errors: [], errorMessages: '',  successMessages: ''  });
     console.log(userId);
   }catch (err) {
     console.log(err);
