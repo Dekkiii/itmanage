@@ -404,6 +404,7 @@ font-size: 12px;
           <% } %>
 
           <input type="hidden" name="infoId" value="<%= filteredStudents.length > 0 ? filteredStudents[0].id : '' %>">
+          <input type="hidden" name="usersId" value="<%= filteredStudents.length > 0 ? filteredStudents[0].userId : '' %>">
                 <input type="text" name="lastname" placeholder="First name" class="form-control my-3 p-4" value="<%= filteredStudents.length > 0 ? filteredStudents[0].lastname : '' %>" readonly required>    
                 <input type="text" name="firstname" placeholder="First name" class="form-control my-3 p-4" value="<%= filteredStudents.length > 0 ? filteredStudents[0].firstname : '' %>" readonly required>    
                 <input type="text" name="middlename" placeholder="Middle Name" class="form-control my-3 p-4" value="<%= filteredStudents.length > 0 ? filteredStudents[0].middlename : '' %>" readonly required>    
@@ -456,9 +457,25 @@ font-size: 12px;
                 <input class="h1" type="checkbox" name="hobby" value="painting"> Painting<br>
                 <input class="h1" type="checkbox" name="hobby" value="photography"> Photography<br>
                 <input class="h1" type="checkbox" name="hobby" value="music"> Music<br>
-                <input class="h1" type="checkbox" name="hobby" value="other"> Others
+                <input class="h1" type="checkbox" name="hobby" value="other"> Others<br>
+                <% if (userType === 'admin') { %>
+
+                  <label>User Type</label><br>
+              <% const usertypevalue = filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %>
+                <select name="usertype" placeholder="usertype" class="form-control my-3 p-2" id="city" name="city" required>
+                <option disabled selected value="<%= usertypevalue %>"><%= filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %></option>
+                <option value="user">user</option>
+                <option value="manager">manager</option>
+                <option value="admin">admin</option>
+              </select>
+              
+              <% } 
+                 else { %>
+                <input type="hidden" name="usertype" value="<%= filteredStudents.length > 0 ? filteredStudents[0].usertype : '' %>">
+                <% } %>
            
-                  <button type="submit" value="updateinfo" class="btn1 mt-3 mb-3">Update</button> 
+                <button type="submit" value="updateinfo" class="btn1 mt-3 mb-3">Update</button> 
+              
   </form>
  
   <button class="btn1 mt-1 mb-2" onclick="window.location.href='/viewing'">Back</button>

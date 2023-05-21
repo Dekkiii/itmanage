@@ -125,11 +125,11 @@ router.post('/admineditinfo', [
   check('civil_status').notEmpty().withMessage('Civil status is required'),
   check('hobby').notEmpty().withMessage('Hobby is required'),
 ], async (req, res) => {
-  const {infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby } = req.body;
+  const {usersId, infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype} = req.body;
   
  
   const errors = validationResult(req);
-  console.log(infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby);
+  console.log(infoId, lastname, firstname, middlename, address, city, region, country, zipcode, birthdate, gender, civil_status, hobby, usertype);
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
     console.log(errorMessages, errors);
@@ -171,6 +171,16 @@ router.post('/admineditinfo', [
         gender,
         civil_status,
         hobby: Array.isArray(hobby) ? hobby.join(",") : hobby,
+        usertype,
+      },
+    });
+
+    await prisma.User.update({
+      where: {
+        id: usersId,
+      },
+      data: {
+        usertype,
       },
     });
 
