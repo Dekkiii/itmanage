@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!DOCTYPE html>
+<html>
+<head>
   <title>Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -10,79 +13,93 @@
   display: flex;
 }
 
-.genderChart{
+.salesChart {
   flex: 1;
   margin: 10px;
   width: 40px;
   height: 20px;
 }
-.civilStatusChart {
+.commissionsChart {
   flex: 1;
   margin: 10px;
   width: 40px;
   height: 20px;
 }
-*{
-         padding: 0;
-          margin: 0;
-            box-sizing: border-box;
-        }
-  body {
-    padding: 0;
-    margin: 0;
-    background: linear-gradient(to right, #30ccf3, #1c6ecb, #2e1ccb);
-    }
-    .navbar {
-    background:#0b0261;
-    }
-    .nav-link,
-    .navbar-brand {
-    color: #fff;
-    cursor: pointer;
-    }
-    .nav-link {
-    margin-right: 1em !important;
-    }
-    .nav-link:hover {
-    color: #000;
-    }
-    .navbar-collapse {
-    justify-content: flex-end;
-    
-    }
-    .Form {
+.gymsChart {
+  flex: 1;
+  margin: 10px;
+  width: 40px;
+  height: 20px;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background: rgb(175, 175, 175);
+}
+
+.navbar {
+  background: #0b0261;
+}
+
+.nav-link,
+.navbar-brand {
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav-link {
+  margin-right: 1em !important;
+}
+
+.nav-link:hover {
+  color: #000;
+}
+
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+.Form {
   background-color: white;
   border-radius: 30px;
   opacity: 90%;
-  min-height: 50vh;
+  min-height: 20vh;
   min-width: 50vh;
-  max-width: 100vh;
-  margin: 40px auto 0; /* add margin to the top */
+  max-width: 150vh;
+  margin: 40px auto 0;
+  margin-right: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 }
+
 .dashboard {
   background-color: white;
+  border-radius: 30px;
   opacity: 90%;
-  min-height: 60vh ;
+  min-height: 20vh;
   min-width: 50vh;
-  max-width: 200vh;
-  margin: 40px auto 0; /* add margin to the top */
+  max-width: 150vh;
+  margin: 40px auto 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 }
+
 .card {
-  
-  margin-top: 40px ; /* add margin to the top */
+  margin-top: 40px;
   margin-bottom: 40px;
   border-radius: 5%;
 }
+
 .cardround {
   position: relative;
   display: -ms-flexbox;
@@ -93,253 +110,590 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, .125);
-  margin-top: 40px; /* add margin to the top */
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  margin-top: 40px;
   margin-bottom: 40px;
   border-radius: 50%;
 }
 
-.card-title{
+.card-title {
   text-align: center;
   margin: 20px auto 0;
 }
-
-
-  </style>
+</style>
 <body>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <nav class="navbar navbar-expand-md">
-      <a class="navbar-brand" href="/homepage">
-        <img src="https://cdn.glitch.global/6a964070-fa24-4424-a894-bf4948808638/348354899_1383830849063485_7453463131505687224_n.png?v=1684646432988"
-          alt="LOGO" style="width:60px;height:60px;">
-      </a>
-        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-navigation">
-        <ul class="navbar-nav">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <nav class="navbar navbar-expand-md">
+    <a class="navbar-brand" href="/homepage">
+      <img src="https://cdn.glitch.global/6a964070-fa24-4424-a894-bf4948808638/348354899_1383830849063485_7453463131505687224_n.png?v=1684646432988"
+        alt="LOGO" style="width:60px;height:60px;">
+    </a>
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main-navigation">
+      <ul class="navbar-nav">
         <li class="nav-item">
-        <a class="nav-link" href="/homepage">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/addinfo">My Information</a>
+          <a class="nav-link" href="/homepage">Add Members</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/viewing">View Information</a>
-          </li>
-          <% if (userType==='admin' ) { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/dashboard">Dashboard</a>
-            </li>
-            <% } %>
-
-          
-        <li class="nav-item">
-        <a class="nav-link" href="/logout">logout</a>
         </li>
-        </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="row justify-content-center">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Total Sales</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalSalesAmount %></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-        </nav>
+    </div>
 
-        <section class="dashboard">
-          <div class="container">
-            
-              <div class="col-12 col-md-3">
-                <div class="card">
-                  <div class="card-title">
-                    <h2>Hobby Table</h2>
-                  </div>
-                  <div class="card-body d-flex align-items-center justify-content-center">
-                  
-                    <div class="mask d-flex align-items-center h-100">
-                      <div class="container1">
-                        <div class="row justify-content-center">
-                          <div class="col-12">
-                            <div class="card">
-                              <div class="card-body p-0">
-                                <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative;">
-                                  <table class="table table-striped mb-0">
-                                    <thead style="background-color: #002d72;">
-                                      <tr>
-                                        <th scope="col" style="color: #fff;">Hobby</th>
-                                        <th scope="col" style="color: #fff;">Count</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <% for (let i = 0; i < hobbyList.length; i++) { %>
-                                      <tr>
-                                        <td><%= hobbyList[i].hobby %></td>
-                                        <td><%= hobbyList[i].count %></td>
-                                      </tr>
-                                      <% } %>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-3">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                          Total Commissions</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= commission %></div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-3">
-                <div class="card">
-                  <div class="card-title">
-                    <h2>Users Count</h2>
-                  </div>
-                  <div class="card-body">
-                    <div class="count d-flex align-items-center justify-content-center">
-                      <h3><%= accountcount %></h3>
-                      <p class="ml-2">Total Users</p>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="card">
-                  <div class="card-title">
-                    <h2>User Type Chart</h2>
-                  </div>
-                  <div class="card-body d-flex justify-content-center align-items-center">
-                    <canvas id="userTypeChart" width="80" height="80"></canvas>
-                  </div>
-                </div>
-              </div>
-        
-          </div>
-        </section>
-                <script>
-                  const userTypeData = {
-                    labels: ['User', 'Manager', 'Admin'],
-                    datasets: [{
-                      label: 'User Type',
-                      data: [<%= userCount %>, <%= managerCount %>, <%= adminCount %>],
-                      backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(75, 192, 192, 0.2)'
-                      ],
-                      borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(75, 192, 192, 1)'
-                      ],
-                      borderWidth: 1
-                    }]
-                  };
-        
-                  const userTypeConfig = {
-                    type: 'doughnut',
-                    data: userTypeData,
-                    options: {}
-                  };
-        
-                  const userTypeCtx = document.getElementById('userTypeChart').getContext('2d');
-                  new Chart(userTypeCtx, userTypeConfig);
-                </script>
-              </div>
-              </div>
-              </div>
-              
             </div>
-          </div>
-        </section>
+        </div>
+    </div>
 
-
-        <section class="Form">
-          <div class="container">
-          <div class="col-12 col-md-6">
-        
-          <div class="card">
-            <div class="card-title">
-              <h2>Student Gender Chart</h2>
-            </div>
-            <div class="card-body d-flex justify-content-center align-items-center">
-  <canvas id="genderChart" width="80" height="80"></canvas>
-</div>
-</div>
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Total Members</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= accountcount %></div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+              </div>
           </div>
+      </div>
+  </div>
+</div>
+    <!-- Pending Requests Card Example -->
   
 
+  <section class="dashboard">
 
-        <div class="col-12 col-md-6">
-         <div class="card">
+    <div class="container">
+    <div class="col-6 col-md-6">
+    <div class="card">
+      <div class="card-title">
+        <h2>Gym Experience Based on Gender</h2>
+      </div>
+      <div class="card-body d-flex justify-content-center align-items-center">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project-0-ckvzb/embed/charts?id=64aabdb3-2925-42fe-8317-15cc0afce746&maxDataAge=60&theme=light&autoRefresh=true"></iframe>
+      </div>
+      </div>
+      </div>
+    
+
+  <div class="col-6 col-md-6">
+   <div class="card">
+    <div class="card-title">
+<h2>Member Types</h2>
+</div>
+<div class="card-body d-flex justify-content-center align-items-center">
+<canvas id="MemberTypeChart" width="400" height="200"></canvas>
+</div>
+</div>
+</div> 
+</div>
+  </section>
+  <script>
+    const data = {
+      labels: ['Male', 'Female'],
+      datasets: [{
+        label: 'Gym member Gender',
+        data: [<%= maleCount %>, <%= femaleCount %>],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const ctx = document.getElementById('genderChart').getContext('2d');
+    new Chart(ctx, config);
+  </script>
+<script>
+const experienceData = {
+  labels: ['Beginner', 'Intermediate', 'Expert'],
+  datasets: [{
+   
+    data: [<%= beginnerCount %>, <%= intermediateCount %>, <%= expertCount %>],
+    backgroundColor: [
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(75, 192, 192, 0.2)'
+    ],
+    borderColor: [
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 99, 132, 1)',
+      'rgba(75, 192, 192, 1)'
+    ],
+    borderWidth: 1
+  }]
+};
+const experienceConfig = {
+  type: 'pie',
+  data: experienceData,
+  options: {}
+};
+
+const civilStatusCtx = document.getElementById('MemberTypeChart').getContext('2d');
+new Chart(civilStatusCtx, experienceConfig);
+</script>
+
+<section class="dashboard">
+  <div class="container">
+    <div class="row">
+      <div class="col-6 col-md-6">
+        <div class="card">
           <div class="card-title">
-     <h2>Student Civil Status Chart</h2>
-    </div>
-    <div class="card-body d-flex justify-content-center align-items-center">
-  <canvas id="civilStatusChart" width="400" height="200"></canvas>
-</div>
-</div>
-    </div>
+            <h2>Lance Member Type</h2>
           </div>
-        </section>
-        <script>
-          const data = {
-            labels: ['Male', 'Female'],
-            datasets: [{
-              label: 'Student Gender',
-              data: [<%= maleCount %>, <%= femaleCount %>],
-              backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 99, 132, 0.2)'
-              ],
-              borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 99, 132, 1)'
-              ],
-              borderWidth: 1
-            }]
-          };
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <canvas id="lanceMemberTypeChart" width="300" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-6">
+        <div class="card">
+          <div class="card-title">
+            <h2>Vincent Member Type</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <canvas id="vincentMemberTypeChart" width="300" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-6">
+        <div class="card">
+          <div class="card-title">
+            <h2>Elen Member Type</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <canvas id="elenMemberTypeChart" width="300" height="200"></canvas>
+          </div>
+        </div>
+      </div>
       
-          const config = {
-            type: 'bar',
-            data: data,
-            options: {
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }
-            }
-          };
+
+
+      <div class="col-6 col-md-6">
+        <div class="card">
+          <div class="card-title">
+            <h2>Sales Type Chart</h2>
+          </div>
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <canvas id="salesTypeChart" width="300" height="200"></canvas>
+          </div>
+        </div>
+      </div>
       
-          const ctx = document.getElementById('genderChart').getContext('2d');
-          new Chart(ctx, config);
-        </script>
+     
+    </div>
+  </div>
+</section>
+
+<script>
+  const salestype = {
+    labels: ['1 Month', '3 Months', '6 Months', '12 Months'],
+    datasets: [{
+      label: 'Sales Type',
+      data: [<%= mon1 %>, <%= mon3 %>, <%= mon6 %>, <%= mon12 %>],
+      backgroundColor: [
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(92, 15, 192, 0.2)'
+      ],
+      borderColor: [
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(92, 15, 192, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+  const salestypeConfig = {
+    type: 'doughnut',
+    data: salestype,
+    options: {
+    interaction: {
+      mode: 'index', // Only show one tooltip item per dataset
+      intersect: false, // Disable hover and click interactions
+    },
+    plugins: {
+      tooltip: {
+        enabled: true, // Enable tooltips
+        mode: 'index', // Only show one tooltip item per dataset
+        intersect: false, // Disable tooltip intersection with the label
+      },
+    },
+  },
+  };
+  const salestypeCtx = document.getElementById('salesTypeChart').getContext('2d');
+  new Chart(salestypeCtx, salestypeConfig);
+  </script>
+
+<script>
+  const lanceexperienceData = {
+    labels: ['Beginner', 'Intermediate', 'Expert'],
+    datasets: [{
+      label: 'User Experience',
+      data: [<%= lancebegin %>, <%= lanceint %>, <%= lanceexp %>],
+      backgroundColor: [
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(75, 192, 192, 0.2)'
+      ],
+      borderColor: [
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(75, 192, 192, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+  const lanceexperienceConfig = {
+    type: 'bar',
+    data: lanceexperienceData,
+    options: {
+    interaction: {
+      mode: 'index', // Only show one tooltip item per dataset
+      intersect: false, // Disable hover and click interactions
+    },
+    plugins: {
+      tooltip: {
+        enabled: true, // Enable tooltips
+        mode: 'index', // Only show one tooltip item per dataset
+        intersect: false, // Disable tooltip intersection with the label
+      },
+    },
+  },
+  };
+  
+  const lanceCtx = document.getElementById('lanceMemberTypeChart').getContext('2d');
+  new Chart(lanceCtx, lanceexperienceConfig);
+  </script>
+
+  <script>
+   const vincentexperienceData = {
+  labels: ['Beginner', 'Intermediate', 'Expert'],
+  datasets: [{
+    label: 'User Experience',
+    data: [<%= vincentbegin %>, <%= vincentint %>, <%= vincentexp %>],
+    backgroundColor: [
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(75, 192, 192, 0.2)'
+    ],
+    borderColor: [
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 99, 132, 1)',
+      'rgba(75, 192, 192, 1)'
+    ],
+    borderWidth: 1
+  }]
+};
+
+const vincentexperienceConfig = {
+  type: 'bar', // Change the chart type to 'bar'
+  data: vincentexperienceData,
+  options: {
+    interaction: {
+      mode: 'index', // Only show one tooltip item per dataset
+      intersect: false, // Disable hover and click interactions
+    },
+    plugins: {
+      tooltip: {
+        enabled: true, // Enable tooltips
+        mode: 'index', // Only show one tooltip item per dataset
+        intersect: false, // Disable tooltip intersection with the label
+      },
+    },
+  },
+};
+
+const vincentCtx = document.getElementById('vincentMemberTypeChart').getContext('2d');
+new Chart(vincentCtx, vincentexperienceConfig);
+    </script>
+    
+
     <script>
-      const civilStatusData = {
-        labels: ['Single', 'Married', 'Divorced', 'Widowed'],
+      const elenexperienceData = {
+        labels: ['Beginner', 'Intermediate', 'Expert'],
         datasets: [{
-          label: 'Student Civil Status',
-          data: [<%= singleCount %>, <%= marriedCount %>, <%= divorcedCount %>, <%= widowedCount %>],
+          label: 'User Experience',
+          data: [<%= elenbegin %>, <%= elenint %>, <%= elenexp %>],
           backgroundColor: [
             'rgba(54, 162, 235, 0.2)',
             'rgba(255, 99, 132, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(255, 206, 86, 0.2)'
+            'rgba(75, 192, 192, 0.2)'
           ],
           borderColor: [
             'rgba(54, 162, 235, 1)',
             'rgba(255, 99, 132, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(255, 206, 86, 1)'
+            'rgba(75, 192, 192, 1)'
           ],
           borderWidth: 1
         }]
       };
-  
-      const civilStatusConfig = {
-        type: 'pie',
-        data: civilStatusData,
-        options: {}
+      const elenexperienceConfig = {
+        type: 'bar',
+        data: elenexperienceData,
+        options: {
+    interaction: {
+      mode: 'index', // Only show one tooltip item per dataset
+      intersect: false, // Disable hover and click interactions
+    },
+    plugins: {
+      tooltip: {
+        enabled: true, // Enable tooltips
+        mode: 'index', // Only show one tooltip item per dataset
+        intersect: false, // Disable tooltip intersection with the label
+      },
+    },
+  },
       };
-  
-      const civilStatusCtx = document.getElementById('civilStatusChart').getContext('2d');
-      new Chart(civilStatusCtx, civilStatusConfig);
-    </script>
+      
+      const elenCtx = document.getElementById('elenMemberTypeChart').getContext('2d');
+      new Chart(elenCtx, elenexperienceConfig);
+      </script>
 
+<!--<div class="Form justify-content-center">
+  <div class="col-9">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Latest Sales</h4>
+      </div>
+      <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="border-top-0">Action</th>
+              <th class="border-top-0">DATE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+            </tr>
+            <% if (transactions && transactions.length > 0) {
+              transactions.slice(0, 5).forEach((transaction) => { %>
+            <tr>
+              <td><%= transaction.action %></td>
+              <td><%= transaction.date %></td>
+            </tr>
+            <% }); %>
+            <% } else { %>
+            <tr>
+              <td colspan="2">No transactions found.</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+
+<!-- ============================================================== -->
+<!-- Ravenue - page-view-bounce rate -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Recent comment and chats -->
+<!-- ============================================================== -->
+<section class="Form">
+  <div class="container">
+  <div class="col-12 col-md-6">
+
+  <div class="card">
+    <div class="card-title">
+      <h2>Sales Heatmap</h2>
+    </div>
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project-0-ckvzb/embed/charts?id=64a95bcc-ed87-4904-8f8b-a29dc5ce87d3&maxDataAge=60&theme=light&autoRefresh=true"></iframe>
+</div>
+</div>
+  </div>
+  <div class="col-12 col-md-6">
+
+  <div class="card">
+    <div class="card-title">
+      <h2>Monthly Sales</h2>
+    </div>
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project-0-ckvzb/embed/charts?id=64aa6ad4-de9a-44d4-88e5-063a5fd7d8cb&maxDataAge=60&theme=light&autoRefresh=true"></iframe>
+</div>
+</div>
+  </div>
+  </div>
+  
+</section>
+<section class="Form">
+  <div class="container">
+  <div class="col-12 col-md-6">
+
+  <div class="card">
+    <div class="card-title">
+      <h2>Target per Quarter</h2>
+    </div>
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project-0-ckvzb/embed/charts?id=64aaaaa4-810f-49eb-8516-3e040f765278&maxDataAge=60&theme=light&autoRefresh=true"></iframe>
+    </div>
+</div>
+  </div>
+  <div class="col-12 col-md-6">
+
+  <div class="card">
+    <div class="card-title">
+      <h2>Membership and Daily Transaction Comparison</h2>
+    </div>
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project-0-ckvzb/embed/charts?id=64aab914-2925-4949-8371-15cc0afa4867&maxDataAge=60&theme=light&autoRefresh=true"></iframe>
+</div>
+  </div>
+  </div>
+  
+</section>
+
+  <script>
+    const gymsData = {
+      labels: ['Gym A', 'Gym B', 'Gym C', 'Gym D', 'Gym E'],
+      datasets: [{
+        label: 'Comparison of Gyms',
+        data: [30, 25, 20, 15, 10],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(153, 102, 255, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    const gymsConfig = {
+      type: 'bar',
+      data: gymsData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const gymsCtx = document.getElementById('gymsChart').getContext('2d');
+    new Chart(gymsCtx, gymsConfig);
+  </script>
+
+  <script>
+    const citiesData = {
+      labels: ['City A', 'City B', 'City C', 'City D', 'City E'],
+      datasets: [{
+        label: 'Best Performing Cities of Gyms',
+        data: [200, 150, 100, 50, 25],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(153, 102, 255, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    const citiesConfig = {
+      type: 'bar',
+      data: citiesData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const citiesCtx = document.getElementById('citiesChart').getContext('2d');
+    new Chart(citiesCtx, citiesConfig);
+  </script>
 </body>
 </html>

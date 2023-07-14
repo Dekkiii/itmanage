@@ -28,7 +28,12 @@ router.get('/homepage', async (req, res) =>{
           userId: userId,
         },
       });
-      res.render('home', { userType, students, userId, errors: [], errorMessages: '',  successMessages: ''  });
+      const coaches = await prisma.Coach.findMany();
+       
+
+      const coachFirstNames = coaches.map(coach => coach.firstname);
+      const coachid = coaches.map(coach => coach.id);
+      res.render('home', {coaches, coachid, coachFirstNames, userType, students, userId, errors: [], errorMessages: '',  successMessages: ''  });
     console.log(userId);
   }catch (err) {
     console.log(err);

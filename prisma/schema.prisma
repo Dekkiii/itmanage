@@ -39,3 +39,57 @@ model User {
   locked_until   DateTime?
   usertype       String
 }
+
+model Gym {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId 
+  location      String
+  gymname       String
+}
+
+model Gym_member{
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId 
+  firstname     String
+  lastname      String
+  birthdate     String
+  number        Int
+  gender        String
+  experience    String
+  memberstart   DateTime?
+  memberuntil      DateTime?
+}
+
+model Sales{
+   id            String   @id @default(auto()) @map("_id") @db.ObjectId 
+   memberId String
+   date  DateTime?
+   amount Int
+   type String
+}
+
+model Transaction {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId 
+  memberId    String
+  action      String
+  date        DateTime
+}
+
+model Coach {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId 
+  firstname   String
+  lastname    String
+}
+
+model Studentcoachinfo {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId 
+  memberId    String
+  coachId     String
+  experience     String
+}
+
+model Daily {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId 
+    firstname     String
+    lastname      String
+    number        Int
+    gender        String
+}

@@ -15,7 +15,7 @@ router.post('/deleteinfo', async (req, res) =>{
     console.log(deleteinfo);
   
     try {
-      await prisma.student_Info.delete({
+      await prisma.gym_member.delete({
         where: {
           id: deleteinfo,
         },

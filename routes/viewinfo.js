@@ -59,6 +59,13 @@ router.get('/viewinformation', async (req, res) =>{
           id: viewinginfo,
         },
       });
+
+      const gymmember = await prisma.gym_member.findMany({
+        where: {
+          id: viewinginfo,
+        },
+      });
+      console.log(gymmember)
       const affineKey = {
         a: 21,
         b: 8
@@ -72,7 +79,7 @@ router.get('/viewinformation', async (req, res) =>{
           lastname: decryptedLastName
         };
       });
-      res.render('infoview', {filteredStudents: decryptedfilteredStudents, userType, userId, errors: [],errorMessages: '',  successMessages: ''  });
+      res.render('infoview', {gymmember, userType, userId, errors: [],errorMessages: '',  successMessages: ''  });
     console.log(filteredStudents);
   }catch (err) {
     console.log(err);

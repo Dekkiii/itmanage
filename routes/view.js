@@ -92,10 +92,11 @@ router.get('/viewing', async (req, res) => {
           lastname: decryptedLastName
         };
       });
+      const gymmember = await prisma.Gym_member.findMany();
       const studentVariableName = userType === "admin" || userType === "manager" ? decryptedAdminAllStudents: decryptedAllStudents;
       res.render('view', {
         userId,
-        userType,
+        userType,gymmember,
         allstudents: decryptedAllStudents,
         adminallstudents:decryptedAdminAllStudents,
         studentVariableName,
